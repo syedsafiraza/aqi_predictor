@@ -1,0 +1,15 @@
+requests>=2.31
+pandas>=2.0
+numpy>=1.24
+scikit-learn>=1.3
+joblib>=1.3
+streamlit>=1.30
+plotly>=5.18
+shap>=0.44
+matplotlib>=3.7
+fastapi>=0.110
+uvicorn>=0.27
+
+# Optional, enables the deep-learning MLP candidate in training_pipeline.py.
+# Falls back to Ridge + Extra Trees automatically if not installed.
+tensorflow-cpu>=2.15
