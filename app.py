@@ -153,13 +153,20 @@ if view_mode == "Map":
                           "aqi": latest["aqi"], "province": config.CITIES[city]["province"]})
     if map_rows:
         map_df = pd.DataFrame(map_rows)
-        fig = px.scatter_mapbox(
-            map_df, lat="lat", lon="lon", size="aqi", color="aqi", hover_name="city",
-            hover_data={"province": True, "aqi": ":.0f", "lat": False, "lon": False},
-            color_continuous_scale=["#00e400", "#ffff00", "#ff7e00", "#ff0000", "#8f3f97", "#7e0023"],
-            range_color=[0, 300], size_max=40, zoom=4.2, height=560,
+            # ...existing code...
+        fig = px.scatter_map(
+            map_df,
+            lat="lat",
+            lon="lon",
+            color="aqi",
+            size="aqi",
+            hover_name="city",
+            zoom=4,
+            center={"lat": 31.5, "lon": 73.5},
+            map_style="carto-positron",
         )
-        fig.update_layout(mapbox_style="carto-positron", margin=dict(t=0, b=0, l=0, r=0))
+        # ...existing code...
+        fig.update_layout(map_style="carto-positron", margin=dict(t=0, b=0, l=0, r=0))
         st.plotly_chart(fig, use_container_width=True)
     else:
         st.info("No data yet — run the backfill and feature pipeline first.")

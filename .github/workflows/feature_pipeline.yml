@@ -5,6 +5,9 @@ on:
     - cron: "0 * * * *"
   workflow_dispatch: {}
 
+permissions:
+  contents: write
+
 jobs:
   run:
     runs-on: ubuntu-latest
@@ -21,6 +24,20 @@ jobs:
         run: |
           git config user.name "aqi-bot"
           git config user.email "aqi-bot@users.noreply.github.com"
-          git add data/aqi_store.db
-          git diff --cached --quiet || git commit -m "Auto-update feature store [skip ci]"
+          if [ -f data/aqi_store.db ]; then
+            git add -f data/aqi_store.db
+          fi
+          if ! git diff --cached --quiet; then
+            git commit -m "Auto-update feature store [skip ci]"
+            git push
+          fi
+
+# ...existing code...
+      - name: Commit updated database
+        run: |
+          git config user.name "aqi-bot"
+          git config user.email "aqi-bot@users.noreply.github.com"
+          git add -f data/aqi_store.db
+          git diff --cached --quiet || git commit -m "Update AQI feature store"
           git push
+# ...existing code...
